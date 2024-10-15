@@ -11,8 +11,8 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 200, 200, 200;
-    --background-start-rgb: 50, 50, 50;
-    --background-end-rgb: 50, 50, 50;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
   }
 }
 
@@ -33,23 +33,29 @@ body {
 }
 
 .game {
-  @apply w-full text-center flex rounded-lg;
+  @apply w-full text-center flex rounded-lg bg-gray-500;
 }
 
-.game tr {}
+.game tbody {
+  @apply gap-px flex flex-col;
+}
+
+.game tr {
+  @apply gap-px flex;
+}
 
 .game td {
-  @apply border border-solid border-gray-300 w-12 h-12 cursor-pointer;
+  @apply text-gray-600 flex justify-center items-center w-12 h-12 cursor-pointer bg-white;
 }
 
 .clicked {
-  @apply bg-blue-500;
+  @apply bg-blue-500 !important;
 }
 
 .game .disabled {
-  @apply opacity-20 cursor-not-allowed;
+  @apply opacity-20 cursor-not-allowed bg-gray-300 text-gray-300;
 }
 
 .add {
-  @apply p-2 border border-blue-800 mb-4 w-32 text-center cursor-pointer rounded-lg bg-blue-700 hover:bg-blue-800; 
+  @apply p-2 border border-blue-800 mb-4 w-32 text-center cursor-pointer rounded-lg bg-blue-700 hover:bg-blue-800;
 }
