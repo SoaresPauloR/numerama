@@ -5,8 +5,7 @@ import React from 'react';
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center p-8 gap-12">
-      Numerama
+    <main className="flex w-full flex-col ps-8 pe-8 gap-4">
       <Game />
     </main>
   );

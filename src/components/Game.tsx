@@ -20,6 +20,7 @@ type Cell = {
   col: number;
   status: boolean;
   clicked: boolean;
+  help: boolean;
 };
 
 export const Game = () => {
@@ -27,6 +28,7 @@ export const Game = () => {
   const [clicked, setClicked] = useState<Cell | null>(null);
   const [numRows, setNumRows] = useState<number>(3);
   const [lastIndex, setLastIndex] = useState<number>(27);
+  const [back, setBack] = useState<Array<Cell> | null>(null);
 
   // State variable to manage the collection of cells on the game board
   const [collection, setCollection] = useState<Array<Cell>>([
@@ -78,7 +80,13 @@ export const Game = () => {
     let count = lastNumbers.length;
 
     const updatedCollection = newCollection.map((e) => {
-      const newCell = { ...e, row: currentRow, col: count, index: newIndex };
+      const newCell = {
+        ...e,
+        row: currentRow,
+        col: count,
+        index: newIndex,
+        help: false,
+      };
 
       count++;
       newIndex++;
@@ -105,14 +113,19 @@ export const Game = () => {
       ...collection[a.index],
       status: false,
       clicked: false,
+      help: false,
     };
 
-    if (b)
+    if (b) {
       newCollection[b.index] = {
         ...collection[b.index],
         status: false,
         clicked: false,
+        help: false,
       };
+
+      setBack([a, b]);
+    }
 
     setCollection([...newCollection]);
     setClicked(null);
@@ -197,13 +210,31 @@ export const Game = () => {
       if (help && a.status)
         collection.forEach((b) => {
           if (help && b.status && a.index !== b.index && checkNumber(a, b)) {
-            alert(`a: (${a.col}, ${a.row}) b: (${b.col}, ${b.row})`);
+            setHelp(a, b);
             help = false;
 
             return;
           }
         });
     });
+  };
+
+  const setHelp = (a: Cell, b: Cell) => {
+    const newCollection = [...collection];
+
+    newCollection[a.index] = {
+      ...collection[a.index],
+      help: true,
+    };
+
+    if (b)
+      newCollection[b.index] = {
+        ...collection[b.index],
+        help: true,
+      };
+
+    setCollection([...newCollection]);
+    setClicked(null);
   };
 
   // Function to handle cell clicks and update the cell status and clicked state based on user interactions
@@ -242,7 +273,7 @@ export const Game = () => {
           <td
             key={cell.col}
             onClick={() => (cell.status ? handleClick(cell) : {})}
-            className={`${cell.clicked ? 'clicked' : ''} ${!cell.status ? 'disabled' : ''}`}
+            className={`${cell.clicked ? 'clicked ' : ''}${!cell.status ? 'disabled ' : ''}${cell.help ? 'help' : ''}`}
           >
             {cell.number}
           </td>
@@ -251,15 +282,35 @@ export const Game = () => {
     ));
   };
 
+  const cleanRows = () => { };
+  const backCells = () => {
+    if (!back) return;
+
+    const newCollection = [...collection];
+
+    newCollection[back[0].index].status = true;
+    newCollection[back[1].index].status = true;
+
+    setCollection(newCollection);
+  };
+
   // Return the game component with the game board and controls
   return (
-    <div>
-      <button onClick={handleAdd} className="add">
-        Add
-      </button>
-      <button onClick={() => helper()} className="add">
-        Dica
-      </button>
+    <div className="main">
+      <div className="buttons">
+        <button onClick={handleAdd} className="">
+          Add
+        </button>
+        <button onClick={helper} className="">
+          Dica
+        </button>
+        <button onClick={() => cleanRows()} className="">
+          Limpar
+        </button>
+        <button onClick={() => backCells()} className="">
+          Voltar
+        </button>
+      </div>
 
       <table className="game">
         <tbody>{renderRows()}</tbody>
