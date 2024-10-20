@@ -498,7 +498,9 @@ export const Game = () => {
     ));
   };
 
-  const cleanRows = () => { };
+  const cleanRows = () => {
+    return false;
+  };
   const backCells = () => {
     if (!back) return;
 
