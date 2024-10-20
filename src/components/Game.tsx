@@ -60,10 +60,17 @@ export const Game = () => {
   ]);
 
   // Function to handle adding new rows to the game board
-  const handleAdd = () => {
-    const newCollection = collection.filter((c) => c.status === true);
+  const handleAdd = async () => {
+    const collectionBase = [...collection];
 
-    const lastNumbers = collection.filter((c) => c.row === numRows);
+    if (clicked) {
+      collectionBase[clicked.index].clicked = false;
+      setClicked(null);
+    }
+
+    const newCollection = collectionBase.filter((c) => c.status === true);
+
+    const lastNumbers = collectionBase.filter((c) => c.row === numRows);
 
     let newIndex = lastIndex;
 
@@ -85,6 +92,7 @@ export const Game = () => {
     });
 
     setLastIndex(newIndex);
+
     setCollection([...collection, ...updatedCollection]);
     setNumRows(currentRow);
   };
@@ -136,7 +144,66 @@ export const Game = () => {
       return false;
     });
 
+    // console.log(newCollection);
+
     return newCollection.length ? true : false;
+  };
+
+  const checkNumber = (a: Cell, b: Cell): boolean => {
+    if (b.number !== a.number && b.number + a.number !== 10) {
+      return false;
+    }
+
+    if (b.col === a.col) {
+      if (checkVertical(b, a, b.row > a.row ? -1 : 1)) {
+        return false;
+      }
+
+      return true;
+    }
+
+    let start: number, finish: number;
+    let actived = false;
+
+    if (b.index > a.index) {
+      start = a.index;
+      finish = b.index;
+    } else {
+      start = b.index;
+      finish = a.index;
+    }
+
+    for (let i = start + 1; i < finish; i++) {
+      collection.forEach((item) => {
+        if (item.index === i) {
+          if (item.status) {
+            actived = true;
+          }
+        }
+      });
+    }
+
+    if (!actived) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const helper = () => {
+    let help = true;
+
+    collection.forEach((a) => {
+      if (help && a.status)
+        collection.forEach((b) => {
+          if (help && b.status && a.index !== b.index && checkNumber(a, b)) {
+            alert(`a: (${a.col}, ${a.row}) b: (${b.col}, ${b.row})`);
+            help = false;
+
+            return;
+          }
+        });
+    });
   };
 
   // Function to handle cell clicks and update the cell status and clicked state based on user interactions
@@ -147,108 +214,21 @@ export const Game = () => {
       return;
     }
 
-    if (clicked.number !== cell.number && clicked.number + cell.number !== 10) {
-      changeClickedState(cell);
-
-      return;
-    }
-
-    if (clicked.col === cell.col) {
-      if (checkVertical(clicked, cell, clicked.row > cell.row ? -1 : 1)) {
-        changeClickedState(cell);
-
-        return;
-      }
-
+    if (checkNumber(cell, clicked)) {
       setStatusFalse(cell, clicked);
 
       return;
     }
 
-    if (clicked.row === cell.row) {
-      if (clicked.col > cell.col) {
-        let actived = false;
-
-        for (let i = clicked.col - 1; i > cell.col; i--) {
-          collection.forEach((item) => {
-            if (item.row === clicked.row && item.col === i) {
-              if (item.status) {
-                actived = true;
-              }
-            }
-          });
-        }
-
-        if (actived) {
-          changeClickedState(cell);
-
-          return;
-        }
-
-        setStatusFalse(cell, clicked);
-
-        return;
-      } else if (clicked.col < cell.col) {
-        let actived = false;
-
-        for (let i = clicked.col + 1; i < cell.col; i++) {
-          collection.forEach((item) => {
-            if (item.row === clicked.row && item.col === i) {
-              if (item.status) {
-                actived = true;
-              }
-            }
-          });
-        }
-
-        if (actived) {
-          changeClickedState(cell);
-
-          return;
-        }
-
-        setStatusFalse(cell, clicked);
-
-        return;
-      }
-    } else {
-      let start: number, finish: number;
-
-      if (clicked.row > cell.row) {
-        start = cell.index;
-        finish = clicked.index;
-      } else {
-        start = clicked.index;
-        finish = cell.index;
-      }
-
-      let actived = false;
-
-      for (let i = start + 1; i < finish; i++) {
-        collection.forEach((item) => {
-          if (item.index === i) {
-            if (item.status) {
-              actived = true;
-            }
-          }
-        });
-      }
-
-      if (actived) {
-        changeClickedState(cell);
-
-        return;
-      }
-
-      setStatusFalse(cell, clicked);
-
-      return;
-    }
+    changeClickedState(cell);
   };
 
   // Function to render the rows of the game board
   const renderRows = () => {
-    const rows: Array<Array<Cell>> = Array.from({ length: numRows }, () => []);
+    const rows: Array<Array<Cell>> = Array.from(
+      { length: numRows + 1 },
+      () => [],
+    );
 
     collection.forEach((cell) => {
       if (rows[cell.row]) {
@@ -277,8 +257,8 @@ export const Game = () => {
       <button onClick={handleAdd} className="add">
         Add
       </button>
-      <button onClick={() => console.log(clicked)} className="add">
-        Debug
+      <button onClick={() => helper()} className="add">
+        Dica
       </button>
 
       <table className="game">
