@@ -217,7 +217,7 @@ export const Game = () => {
 
   const helper = () => {
     let help = true;
-    setCooldown(40);
+    setCooldown(30);
 
     if (clicked) setClicked(null);
 
