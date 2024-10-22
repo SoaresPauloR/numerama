@@ -67,9 +67,13 @@ body {
 }
 
 .buttons button{
-  @apply p-2 border border-blue-800 w-full text-center cursor-pointer rounded-lg bg-blue-700 hover:bg-blue-800;
+  @apply p-2 border-2 border-blue-800 w-full text-center cursor-pointer rounded-lg bg-blue-700 hover:bg-blue-800;
 }
 
 .help {
   @apply bg-yellow-500 !important;
+}
+
+.buttons button:disabled {
+  @apply cursor-not-allowed border-blue-800 border-2 bg-transparent;
 }

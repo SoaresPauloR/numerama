@@ -11,7 +11,7 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 type Cell = {
   index: number;
@@ -59,6 +59,22 @@ export const Game = () => {
     { index: 25, number: 1, row: 2, col: 7, status: true, help: false },
     { index: 26, number: 9, row: 2, col: 8, status: true, help: false },
   ]);
+
+  const [cooldown, setCooldown] = useState(0); // Tempo de cooldown em segundos
+
+  useEffect(() => {
+    let intervalo = null;
+
+    if (cooldown > 0) {
+      intervalo = setInterval(() => {
+        setCooldown((tempoAtual) => tempoAtual - 1);
+      }, 1000);
+    }
+
+    if (intervalo) {
+      return () => clearInterval(intervalo);
+    }
+  }, [cooldown]);
 
   // Function to handle adding new rows to the game board
   const handleAdd = async () => {
@@ -201,6 +217,7 @@ export const Game = () => {
 
   const helper = () => {
     let help = true;
+    setCooldown(40);
 
     if (clicked) setClicked(null);
 
@@ -345,8 +362,12 @@ export const Game = () => {
         <button onClick={handleAdd} className="">
           Add
         </button>
-        <button onClick={helper} className="">
-          Dica
+        <button
+          disabled={cooldown > 0 ? true : false}
+          onClick={helper}
+          className=""
+        >
+          {cooldown > 0 ? cooldown : 'Dica'}
         </button>
         <button onClick={() => cleanRows()} className="">
           Limpar
