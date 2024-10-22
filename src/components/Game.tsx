@@ -19,7 +19,6 @@ type Cell = {
   row: number;
   col: number;
   status: boolean;
-  clicked: boolean;
   help: boolean;
 };
 
@@ -32,249 +31,33 @@ export const Game = () => {
 
   // State variable to manage the collection of cells on the game board
   const [collection, setCollection] = useState<Array<Cell>>([
-    {
-      index: 0,
-      number: 1,
-      row: 0,
-      col: 0,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 1,
-      number: 2,
-      row: 0,
-      col: 1,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 2,
-      number: 3,
-      row: 0,
-      col: 2,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 3,
-      number: 4,
-      row: 0,
-      col: 3,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 4,
-      number: 5,
-      row: 0,
-      col: 4,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 5,
-      number: 6,
-      row: 0,
-      col: 5,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 6,
-      number: 7,
-      row: 0,
-      col: 6,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 7,
-      number: 8,
-      row: 0,
-      col: 7,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 8,
-      number: 9,
-      row: 0,
-      col: 8,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 9,
-      number: 1,
-      row: 1,
-      col: 0,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 10,
-      number: 1,
-      row: 1,
-      col: 1,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 11,
-      number: 1,
-      row: 1,
-      col: 2,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 12,
-      number: 2,
-      row: 1,
-      col: 3,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 13,
-      number: 1,
-      row: 1,
-      col: 4,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 14,
-      number: 3,
-      row: 1,
-      col: 5,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 15,
-      number: 1,
-      row: 1,
-      col: 6,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 16,
-      number: 4,
-      row: 1,
-      col: 7,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 17,
-      number: 1,
-      row: 1,
-      col: 8,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 18,
-      number: 5,
-      row: 2,
-      col: 0,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 19,
-      number: 1,
-      row: 2,
-      col: 1,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 20,
-      number: 6,
-      row: 2,
-      col: 2,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 21,
-      number: 1,
-      row: 2,
-      col: 3,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 22,
-      number: 7,
-      row: 2,
-      col: 4,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 23,
-      number: 1,
-      row: 2,
-      col: 5,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 24,
-      number: 8,
-      row: 2,
-      col: 6,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 25,
-      number: 1,
-      row: 2,
-      col: 7,
-      status: true,
-      clicked: false,
-      help: false,
-    },
-    {
-      index: 26,
-      number: 9,
-      row: 2,
-      col: 8,
-      status: true,
-      clicked: false,
-      help: false,
-    },
+    { index: 0, number: 1, row: 0, col: 0, status: true, help: false },
+    { index: 1, number: 2, row: 0, col: 1, status: true, help: false },
+    { index: 2, number: 3, row: 0, col: 2, status: true, help: false },
+    { index: 3, number: 4, row: 0, col: 3, status: true, help: false },
+    { index: 4, number: 5, row: 0, col: 4, status: true, help: false },
+    { index: 5, number: 6, row: 0, col: 5, status: true, help: false },
+    { index: 6, number: 7, row: 0, col: 6, status: true, help: false },
+    { index: 7, number: 8, row: 0, col: 7, status: true, help: false },
+    { index: 8, number: 9, row: 0, col: 8, status: true, help: false },
+    { index: 9, number: 1, row: 1, col: 0, status: true, help: false },
+    { index: 10, number: 1, row: 1, col: 1, status: true, help: false },
+    { index: 11, number: 1, row: 1, col: 2, status: true, help: false },
+    { index: 12, number: 2, row: 1, col: 3, status: true, help: false },
+    { index: 13, number: 1, row: 1, col: 4, status: true, help: false },
+    { index: 14, number: 3, row: 1, col: 5, status: true, help: false },
+    { index: 15, number: 1, row: 1, col: 6, status: true, help: false },
+    { index: 16, number: 4, row: 1, col: 7, status: true, help: false },
+    { index: 17, number: 1, row: 1, col: 8, status: true, help: false },
+    { index: 18, number: 5, row: 2, col: 0, status: true, help: false },
+    { index: 19, number: 1, row: 2, col: 1, status: true, help: false },
+    { index: 20, number: 6, row: 2, col: 2, status: true, help: false },
+    { index: 21, number: 1, row: 2, col: 3, status: true, help: false },
+    { index: 22, number: 7, row: 2, col: 4, status: true, help: false },
+    { index: 23, number: 1, row: 2, col: 5, status: true, help: false },
+    { index: 24, number: 8, row: 2, col: 6, status: true, help: false },
+    { index: 25, number: 1, row: 2, col: 7, status: true, help: false },
+    { index: 26, number: 9, row: 2, col: 8, status: true, help: false },
   ]);
 
   // Function to handle adding new rows to the game board
@@ -282,7 +65,6 @@ export const Game = () => {
     const collectionBase = [...collection];
 
     if (clicked) {
-      collectionBase[clicked.index].clicked = false;
       setClicked(null);
     }
 
@@ -318,6 +100,7 @@ export const Game = () => {
     setLastIndex(newIndex);
 
     setCollection([...collection, ...updatedCollection]);
+
     setNumRows(currentRow);
   };
 
@@ -328,7 +111,6 @@ export const Game = () => {
     newCollection[a.index] = {
       ...collection[a.index],
       status: false,
-      clicked: false,
       help: false,
     };
 
@@ -336,7 +118,6 @@ export const Game = () => {
       newCollection[b.index] = {
         ...collection[b.index],
         status: false,
-        clicked: false,
         help: false,
       };
 
@@ -355,7 +136,6 @@ export const Game = () => {
 
     newCollection[itemToUpdate.index] = {
       ...collection[itemToUpdate.index],
-      clicked: !collection[itemToUpdate.index].clicked,
     };
 
     setCollection([...newCollection]);
@@ -422,8 +202,10 @@ export const Game = () => {
   const helper = () => {
     let help = true;
 
+    if (clicked) setClicked(null);
+
     collection.forEach((a) => {
-      if (help && a.status)
+      if (help && a.status) {
         collection.forEach((b) => {
           if (help && b.status && a.index !== b.index && checkNumber(a, b)) {
             setHelp(a, b);
@@ -432,6 +214,9 @@ export const Game = () => {
             return;
           }
         });
+      } else {
+        return;
+      }
     });
   };
 
@@ -483,24 +268,65 @@ export const Game = () => {
       }
     });
 
-    return rows.map((row, i) => (
-      <tr key={i}>
-        {row.map((cell) => (
-          <td
-            key={cell.col}
-            onClick={() => (cell.status ? handleClick(cell) : {})}
-            className={`${cell.clicked ? 'clicked ' : ''}${!cell.status ? 'disabled ' : ''}${cell.help ? 'help' : ''}`}
-          >
-            {cell.number}
-          </td>
-        ))}
-      </tr>
-    ));
+    return rows
+      .filter((item) => item.length !== 0)
+      .map((row, i) => (
+        <tr key={i}>
+          {row.map((cell) => (
+            <td
+              key={cell.col}
+              onClick={() => (cell.status ? handleClick(cell) : {})}
+              className={`${cell.index === clicked?.index ? 'clicked ' : ''}${!cell.status ? 'disabled ' : ''}${cell.help ? 'help' : ''}`}
+            >
+              {cell.number}
+            </td>
+          ))}
+        </tr>
+      ));
   };
 
   const cleanRows = () => {
-    return false;
+    setClicked(null);
+
+    const rows: Array<Array<Cell>> = Array.from(
+      { length: numRows + 1 },
+      () => [],
+    );
+
+    collection.forEach((cell) => {
+      if (rows[cell.row]) {
+        rows[cell.row].push(cell);
+      }
+    });
+
+    const toDisable: Array<number> = [];
+
+    rows
+      .filter((item) => item.length !== 0)
+      .forEach((row) => {
+        const numDesabled: Array<number> = [];
+
+        row.forEach((cell) => {
+          if (!cell.status) {
+            numDesabled.push(cell.index);
+          }
+        });
+
+        if (numDesabled.length === 9) {
+          toDisable.push(...numDesabled);
+        }
+      });
+
+    const newCollection = collection.filter(
+      (cell, index) => !toDisable.includes(index),
+    );
+
+    newCollection.map((cell, index) => (cell.index = index));
+
+    setCollection(newCollection);
+    setLastIndex(newCollection.length);
   };
+
   const backCells = () => {
     if (!back) return;
 
