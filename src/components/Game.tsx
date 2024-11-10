@@ -60,7 +60,6 @@ export const Game = () => {
   // Function to handle adding new rows to the game board
   const handleAdd = async () => {
     const collectionBase = [...collection];
-
     if (clicked) {
       setClicked(null);
     }
@@ -372,6 +371,11 @@ export const Game = () => {
       { index: 25, number: 1, row: 2, col: 7, status: true, help: false },
       { index: 26, number: 9, row: 2, col: 8, status: true, help: false },
     ]);
+
+    setNumRows(3);
+    setBack(null);
+    setClicked(null);
+    setLastIndex(27);
   };
 
   useEffect(() => {
@@ -382,7 +386,6 @@ export const Game = () => {
       setCollection(newCollection);
 
       const rows = newCollection[newCollection.length - 1].row;
-
       setNumRows(rows);
       setLastIndex(newCollection.length);
 
@@ -420,6 +423,10 @@ export const Game = () => {
       { index: 25, number: 1, row: 2, col: 7, status: true, help: false },
       { index: 26, number: 9, row: 2, col: 8, status: true, help: false },
     ]);
+
+    const rows = 3;
+    setNumRows(rows);
+    setLastIndex(27);
 
     setLoading(false);
   }, []);
