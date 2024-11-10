@@ -52,6 +52,8 @@ export const Game = () => {
   const setCollectionMiddleware = (collection: Array<Cell>) => {
     setCollection(collection);
 
+    localStorage.clear();
+
     localStorage.setItem('collection', JSON.stringify(collection));
   };
 
@@ -378,6 +380,11 @@ export const Game = () => {
     if (newCollectionString) {
       const newCollection = JSON.parse(newCollectionString) as Array<Cell>;
       setCollection(newCollection);
+
+      const rows = newCollection[newCollection.length - 1].row;
+
+      setNumRows(rows);
+      setLastIndex(newCollection.length);
 
       setLoading(false);
 
