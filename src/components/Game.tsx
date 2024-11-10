@@ -23,6 +23,7 @@ type Cell = {
 };
 
 export const Game = () => {
+  const [loading, setLoading] = useState<boolean>(true);
   // State variables to manage the clicked cell, number of rows, and the last index used for adding new cells
   const [clicked, setClicked] = useState<Cell | null>(null);
   const [numRows, setNumRows] = useState<number>(3);
@@ -30,35 +31,7 @@ export const Game = () => {
   const [back, setBack] = useState<Array<Cell> | null>(null);
 
   // State variable to manage the collection of cells on the game board
-  const [collection, setCollection] = useState<Array<Cell>>([
-    { index: 0, number: 1, row: 0, col: 0, status: true, help: false },
-    { index: 1, number: 2, row: 0, col: 1, status: true, help: false },
-    { index: 2, number: 3, row: 0, col: 2, status: true, help: false },
-    { index: 3, number: 4, row: 0, col: 3, status: true, help: false },
-    { index: 4, number: 5, row: 0, col: 4, status: true, help: false },
-    { index: 5, number: 6, row: 0, col: 5, status: true, help: false },
-    { index: 6, number: 7, row: 0, col: 6, status: true, help: false },
-    { index: 7, number: 8, row: 0, col: 7, status: true, help: false },
-    { index: 8, number: 9, row: 0, col: 8, status: true, help: false },
-    { index: 9, number: 1, row: 1, col: 0, status: true, help: false },
-    { index: 10, number: 1, row: 1, col: 1, status: true, help: false },
-    { index: 11, number: 1, row: 1, col: 2, status: true, help: false },
-    { index: 12, number: 2, row: 1, col: 3, status: true, help: false },
-    { index: 13, number: 1, row: 1, col: 4, status: true, help: false },
-    { index: 14, number: 3, row: 1, col: 5, status: true, help: false },
-    { index: 15, number: 1, row: 1, col: 6, status: true, help: false },
-    { index: 16, number: 4, row: 1, col: 7, status: true, help: false },
-    { index: 17, number: 1, row: 1, col: 8, status: true, help: false },
-    { index: 18, number: 5, row: 2, col: 0, status: true, help: false },
-    { index: 19, number: 1, row: 2, col: 1, status: true, help: false },
-    { index: 20, number: 6, row: 2, col: 2, status: true, help: false },
-    { index: 21, number: 1, row: 2, col: 3, status: true, help: false },
-    { index: 22, number: 7, row: 2, col: 4, status: true, help: false },
-    { index: 23, number: 1, row: 2, col: 5, status: true, help: false },
-    { index: 24, number: 8, row: 2, col: 6, status: true, help: false },
-    { index: 25, number: 1, row: 2, col: 7, status: true, help: false },
-    { index: 26, number: 9, row: 2, col: 8, status: true, help: false },
-  ]);
+  const [collection, setCollection] = useState<Array<Cell>>([]);
 
   const [cooldown, setCooldown] = useState(0); // Tempo de cooldown em segundos
 
@@ -75,6 +48,12 @@ export const Game = () => {
       return () => clearInterval(intervalo);
     }
   }, [cooldown]);
+
+  const setCollectionMiddleware = (collection: Array<Cell>) => {
+    setCollection(collection);
+
+    localStorage.setItem('collection', JSON.stringify(collection));
+  };
 
   // Function to handle adding new rows to the game board
   const handleAdd = async () => {
@@ -115,7 +94,7 @@ export const Game = () => {
 
     setLastIndex(newIndex);
 
-    setCollection([...collection, ...updatedCollection]);
+    setCollectionMiddleware([...collection, ...updatedCollection]);
 
     setNumRows(currentRow);
   };
@@ -140,7 +119,7 @@ export const Game = () => {
       setBack([a, b]);
     }
 
-    setCollection([...newCollection]);
+    setCollectionMiddleware([...newCollection]);
     setClicked(null);
   };
 
@@ -154,7 +133,7 @@ export const Game = () => {
       ...collection[itemToUpdate.index],
     };
 
-    setCollection([...newCollection]);
+    setCollectionMiddleware([...newCollection]);
     clicked ? setClicked(null) : setClicked(cell);
   };
 
@@ -168,8 +147,6 @@ export const Game = () => {
 
       return false;
     });
-
-    // console.log(newCollection);
 
     return newCollection.length ? true : false;
   };
@@ -251,7 +228,7 @@ export const Game = () => {
         help: true,
       };
 
-    setCollection([...newCollection]);
+    setCollectionMiddleware([...newCollection]);
     setClicked(null);
   };
 
@@ -266,10 +243,18 @@ export const Game = () => {
     if (checkNumber(cell, clicked)) {
       setStatusFalse(cell, clicked);
 
+      isFinish();
+
       return;
     }
 
     changeClickedState(cell);
+  };
+
+  const isFinish = () => {
+    if (collection.length === 0) {
+      alert('Fin');
+    }
   };
 
   // Function to render the rows of the game board
@@ -340,7 +325,7 @@ export const Game = () => {
 
     newCollection.map((cell, index) => (cell.index = index));
 
-    setCollection(newCollection);
+    setCollectionMiddleware(newCollection);
     setLastIndex(newCollection.length);
   };
 
@@ -352,11 +337,90 @@ export const Game = () => {
     newCollection[back[0].index].status = true;
     newCollection[back[1].index].status = true;
 
-    setCollection(newCollection);
+    setCollectionMiddleware(newCollection);
   };
 
+  const newGame = () => {
+    setCollectionMiddleware([
+      { index: 0, number: 1, row: 0, col: 0, status: true, help: false },
+      { index: 1, number: 2, row: 0, col: 1, status: true, help: false },
+      { index: 2, number: 3, row: 0, col: 2, status: true, help: false },
+      { index: 3, number: 4, row: 0, col: 3, status: true, help: false },
+      { index: 4, number: 5, row: 0, col: 4, status: true, help: false },
+      { index: 5, number: 6, row: 0, col: 5, status: true, help: false },
+      { index: 6, number: 7, row: 0, col: 6, status: true, help: false },
+      { index: 7, number: 8, row: 0, col: 7, status: true, help: false },
+      { index: 8, number: 9, row: 0, col: 8, status: true, help: false },
+      { index: 9, number: 1, row: 1, col: 0, status: true, help: false },
+      { index: 10, number: 1, row: 1, col: 1, status: true, help: false },
+      { index: 11, number: 1, row: 1, col: 2, status: true, help: false },
+      { index: 12, number: 2, row: 1, col: 3, status: true, help: false },
+      { index: 13, number: 1, row: 1, col: 4, status: true, help: false },
+      { index: 14, number: 3, row: 1, col: 5, status: true, help: false },
+      { index: 15, number: 1, row: 1, col: 6, status: true, help: false },
+      { index: 16, number: 4, row: 1, col: 7, status: true, help: false },
+      { index: 17, number: 1, row: 1, col: 8, status: true, help: false },
+      { index: 18, number: 5, row: 2, col: 0, status: true, help: false },
+      { index: 19, number: 1, row: 2, col: 1, status: true, help: false },
+      { index: 20, number: 6, row: 2, col: 2, status: true, help: false },
+      { index: 21, number: 1, row: 2, col: 3, status: true, help: false },
+      { index: 22, number: 7, row: 2, col: 4, status: true, help: false },
+      { index: 23, number: 1, row: 2, col: 5, status: true, help: false },
+      { index: 24, number: 8, row: 2, col: 6, status: true, help: false },
+      { index: 25, number: 1, row: 2, col: 7, status: true, help: false },
+      { index: 26, number: 9, row: 2, col: 8, status: true, help: false },
+    ]);
+  };
+
+  useEffect(() => {
+    const newCollectionString = localStorage.getItem('collection');
+
+    if (newCollectionString) {
+      const newCollection = JSON.parse(newCollectionString) as Array<Cell>;
+      setCollection(newCollection);
+
+      setLoading(false);
+
+      return;
+    }
+
+    setCollection([
+      { index: 0, number: 1, row: 0, col: 0, status: true, help: false },
+      { index: 1, number: 2, row: 0, col: 1, status: true, help: false },
+      { index: 2, number: 3, row: 0, col: 2, status: true, help: false },
+      { index: 3, number: 4, row: 0, col: 3, status: true, help: false },
+      { index: 4, number: 5, row: 0, col: 4, status: true, help: false },
+      { index: 5, number: 6, row: 0, col: 5, status: true, help: false },
+      { index: 6, number: 7, row: 0, col: 6, status: true, help: false },
+      { index: 7, number: 8, row: 0, col: 7, status: true, help: false },
+      { index: 8, number: 9, row: 0, col: 8, status: true, help: false },
+      { index: 9, number: 1, row: 1, col: 0, status: true, help: false },
+      { index: 10, number: 1, row: 1, col: 1, status: true, help: false },
+      { index: 11, number: 1, row: 1, col: 2, status: true, help: false },
+      { index: 12, number: 2, row: 1, col: 3, status: true, help: false },
+      { index: 13, number: 1, row: 1, col: 4, status: true, help: false },
+      { index: 14, number: 3, row: 1, col: 5, status: true, help: false },
+      { index: 15, number: 1, row: 1, col: 6, status: true, help: false },
+      { index: 16, number: 4, row: 1, col: 7, status: true, help: false },
+      { index: 17, number: 1, row: 1, col: 8, status: true, help: false },
+      { index: 18, number: 5, row: 2, col: 0, status: true, help: false },
+      { index: 19, number: 1, row: 2, col: 1, status: true, help: false },
+      { index: 20, number: 6, row: 2, col: 2, status: true, help: false },
+      { index: 21, number: 1, row: 2, col: 3, status: true, help: false },
+      { index: 22, number: 7, row: 2, col: 4, status: true, help: false },
+      { index: 23, number: 1, row: 2, col: 5, status: true, help: false },
+      { index: 24, number: 8, row: 2, col: 6, status: true, help: false },
+      { index: 25, number: 1, row: 2, col: 7, status: true, help: false },
+      { index: 26, number: 9, row: 2, col: 8, status: true, help: false },
+    ]);
+
+    setLoading(false);
+  }, []);
+
   // Return the game component with the game board and controls
-  return (
+  return loading ? (
+    <div className="loading">loading...</div>
+  ) : (
     <div className="main">
       <div className="buttons">
         <button onClick={handleAdd} className="">
@@ -374,6 +438,9 @@ export const Game = () => {
         </button>
         <button onClick={() => backCells()} className="">
           Voltar
+        </button>
+        <button onClick={newGame} className="">
+          Novo
         </button>
       </div>
 

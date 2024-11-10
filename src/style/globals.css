@@ -77,3 +77,7 @@ body {
 .buttons button:disabled {
   @apply cursor-not-allowed border-blue-800 border-2 bg-transparent;
 }
+
+.loading {
+  @apply w-full left-0 text-2xl font-bold h-full absolute flex items-center justify-center;
+}
