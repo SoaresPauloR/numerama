@@ -1,5 +1,7 @@
+import { EnumModes } from '@/interfaces/Modes';
+
 type NewGameButtonProps = {
-  setMenuState: React.Dispatch<React.SetStateAction<boolean>>;
+  middlewareInit: (selected: keyof typeof EnumModes) => void;
 };
 
 export default NewGameButtonProps;

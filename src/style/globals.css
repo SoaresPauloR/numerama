@@ -8,6 +8,10 @@
   --background-end-rgb: 200, 200, 200;
 }
 
+* {
+  transition: all 0.3s ease-in-out;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 200, 200, 200;
@@ -85,8 +89,11 @@ body {
 }
 
 .menu { 
-  @apply absolute w-screen h-screen left-0 top-0 bg-gray-100 p-8 pt-6 text-black text-center flex flex-col z-10;
-  transition: all 1s ease-in-out;
+  @apply absolute w-screen h-screen left-[-100vw] top-0 bg-gray-100 p-8 pt-6 text-black text-center flex flex-col z-10;
+}
+
+.active {
+  @apply left-0 top-0;
 }
 
 .title {
@@ -96,7 +103,6 @@ body {
 .menu-button {
   @apply flex gap-4 p-2 rounded-lg bg-white;
   box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.15);
-
 }
 
 .menu-buttons {
@@ -109,4 +115,25 @@ body {
 
 .nav-title {
   @apply w-full text-center text-2xl;
+}
+
+.modeModal {
+  @apply absolute w-screen h-screen bg-black bg-opacity-25 left-0 top-0 flex flex-col justify-center
+}
+
+.modalMain {
+  @apply p-4 bg-white m-8 flex flex-col gap-4 rounded-lg
+}
+
+.modalTitle {
+  @apply text-xl font-bold
+}
+
+.modalSelect {
+  @apply w-full p-4 pt-2 pb-2 rounded-lg bg-white;
+  box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.15);
+}
+
+.modalButton {
+  @apply flex justify-center rounded-lg p-2 w-full bg-green-500;
 }

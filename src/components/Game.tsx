@@ -22,7 +22,7 @@ export const Game = ({ initConf }: GameProps) => {
 
   useEffect(() => {
     const newGame = () => {
-      setCollectionMiddleware(initConf.methode.generate(), setCollection);
+      setCollectionMiddleware(initConf.methode.collection, setCollection);
 
       setNumRows(3);
       setBack(null);
@@ -56,7 +56,7 @@ export const Game = ({ initConf }: GameProps) => {
       return;
     }
 
-    setCollection(initConf.methode.generate());
+    setCollection(initConf.methode.collection);
 
     const rows = 3;
     setNumRows(rows);

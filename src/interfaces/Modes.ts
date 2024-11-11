@@ -2,7 +2,13 @@ import Mode from '@/interfaces/Mode';
 import Cell from '@/types/Cell';
 
 export class Normal implements Mode {
-  name = 'Normal';
+  name;
+  collection: Array<Cell>;
+
+  constructor() {
+    this.name = 'Normal';
+    this.collection = this.generate();
+  }
 
   generate() {
     return [
@@ -38,10 +44,18 @@ export class Normal implements Mode {
 }
 
 export class Random implements Mode {
-  name = 'Random';
+  name;
+  collection: Array<Cell>;
+
+  constructor() {
+    this.name = 'Random';
+    this.collection = this.generate();
+  }
 
   generate() {
     const collection = [] as Array<Cell>;
+
+    let col = 0;
 
     for (let i = 0; i < 27; i++) {
       const randomNumber = Math.floor(Math.random() * 9) + 1;
@@ -49,11 +63,17 @@ export class Random implements Mode {
       collection.push({
         index: i,
         number: randomNumber,
-        row: Math.floor(i / 8),
-        col: i,
+        row: Math.floor(i / 9),
+        col: col,
         status: true,
         help: false,
       });
+
+      if (col === 8) {
+        col = 0;
+      } else {
+        col++;
+      }
     }
 
     return collection;
@@ -61,25 +81,51 @@ export class Random implements Mode {
 }
 
 export class Test implements Mode {
-  name = 'Teste';
+  name;
+  collection: Array<Cell>;
+
+  constructor() {
+    this.name = 'Test';
+    this.collection = this.generate();
+  }
 
   generate() {
     const collection = [] as Array<Cell>;
+
+    let col = 0;
 
     for (let i = 0; i < 27; i++) {
       collection.push({
         index: i,
         number: 1,
         row: Math.floor(i / 9),
-        col: i,
+        col: col,
         status: true,
         help: false,
       });
+
+      if (col === 8) {
+        col = 0;
+      } else {
+        col++;
+      }
     }
 
     return collection;
   }
 }
+
+export const EnumModes = {
+  get Normal() {
+    return new Normal();
+  },
+  get Random() {
+    return new Random();
+  },
+  get Test() {
+    return new Test();
+  },
+};
 
 type Modes = Normal | Random | Test;
 export default Modes;
