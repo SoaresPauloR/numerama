@@ -32,11 +32,7 @@ const Collection = ({
     changeClickedState(cell);
   };
 
-  const isFinish = () => {
-    if (collection.length === 0) {
-      alert('Fin');
-    }
-  };
+  const isFinish = () => {};
 
   const changeClickedState = (cell: Cell) => {
     const newCollection = [...collection];

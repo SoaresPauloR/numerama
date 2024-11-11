@@ -10,6 +10,8 @@ import AddButton from './AddButton';
 import CleanRowsButton from './CleanRowsButton';
 import BackButton from './BackButton';
 import GameProps from '@/types/GameProps';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import Statistics from '@/types/Statistics';
 
 export const Game = ({ initConf }: GameProps) => {
   const [collection, setCollection] = useState<Array<Cell>>([]);
@@ -17,6 +19,21 @@ export const Game = ({ initConf }: GameProps) => {
   const [lastIndex, setLastIndex] = useState<number>(27);
   const [back, setBack] = useState<Array<Cell> | null>(null);
   const [clicked, setClicked] = useState<Cell | null>(null);
+
+  const [statisticState, setStatisticState] = useState<boolean>(false);
+  const [statistic, setStatistic] = useState<Statistics>({
+    number: 0,
+    one: 0,
+    two: 0,
+    three: 0,
+    four: 0,
+    five: 0,
+    six: 0,
+    seven: 0,
+    eight: 0,
+    nine: 0,
+    rest: 0,
+  });
 
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -64,6 +81,59 @@ export const Game = ({ initConf }: GameProps) => {
 
     setLoading(false);
   }, [initConf]);
+
+  const handleStatistic = () => {
+    const couted = {
+      number: 0,
+      one: 0,
+      two: 0,
+      three: 0,
+      four: 0,
+      five: 0,
+      six: 0,
+      seven: 0,
+      eight: 0,
+      nine: 0,
+      rest: statistic.rest,
+    };
+
+    collection.map((cell) => {
+      switch (cell.number) {
+        case 1:
+          couted.one++;
+          break;
+        case 2:
+          couted.two++;
+          break;
+        case 3:
+          couted.three++;
+          break;
+        case 4:
+          couted.four++;
+          break;
+        case 5:
+          couted.five++;
+          break;
+        case 6:
+          couted.six++;
+          break;
+        case 7:
+          couted.seven++;
+          break;
+        case 8:
+          couted.eight++;
+          break;
+        case 9:
+          couted.nine++;
+          break;
+      }
+
+      if (cell.status) couted.number++;
+    });
+
+    setStatistic(couted);
+    setStatisticState(!statisticState);
+  };
 
   if (loading) return <div className="loading">loading...</div>;
 
@@ -115,6 +185,49 @@ export const Game = ({ initConf }: GameProps) => {
         clicked={clicked}
         setClicked={setClicked}
       />
+
+      <footer
+        onClick={handleStatistic}
+        className={`footer ${statisticState ? 'footerActived' : ''}`}
+      >
+        <div className="footerTitle">
+          <h3>Totais</h3>
+          {statisticState ? <IoIosArrowDown /> : <IoIosArrowUp />}
+        </div>
+
+        <ul className="footerList">
+          <li className="footerItem">
+            <div>Numeros</div> <div>{statistic.number}</div>
+          </li>
+          <li className="footerItem">
+            <div>Um</div> <div>{statistic.one}</div>
+          </li>
+          <li className="footerItem">
+            <div>Dois</div> <div>{statistic.two}</div>
+          </li>
+          <li className="footerItem">
+            <div>Três</div> <div>{statistic.three}</div>
+          </li>
+          <li className="footerItem">
+            <div>Quatro</div> <div>{statistic.four}</div>
+          </li>
+          <li className="footerItem">
+            <div>Cinco</div> <div>{statistic.five}</div>
+          </li>
+          <li className="footerItem">
+            <div>Seis</div> <div>{statistic.six}</div>
+          </li>
+          <li className="footerItem">
+            <div>Sete</div> <div>{statistic.seven}</div>
+          </li>
+          <li className="footerItem">
+            <div>Oito</div> <div>{statistic.eight}</div>
+          </li>
+          <li className="footerItem">
+            <div>Nove</div> <div>{statistic.nine}</div>
+          </li>
+        </ul>
+      </footer>
     </>
   );
 };
