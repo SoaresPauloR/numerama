@@ -1,7 +1,7 @@
 import setCollectionMiddleware from '@/Middleware/setCollectionMiddleware';
 import Cell from '@/types/Cell';
 import CollectionType from '@/types/CollectionProps';
-import checkMatchs from '@/utils/checkMatchs';
+import checkMatch from '@/utils/checkMatch';
 import React from 'react';
 
 const Collection = ({
@@ -12,8 +12,6 @@ const Collection = ({
   clicked,
   setClicked,
 }: CollectionType) => {
-  // State variable to manage the collection of cells on the game board
-
   const handleClick = (cell: Cell) => {
     if (!clicked || cell.index === clicked.index) {
       changeClickedState(cell);
@@ -21,10 +19,8 @@ const Collection = ({
       return;
     }
 
-    if (checkMatchs(collection, cell, clicked)) {
+    if (checkMatch(collection, cell, clicked)) {
       setStatusFalse(cell, clicked);
-
-      isFinish();
 
       return;
     }
@@ -32,7 +28,15 @@ const Collection = ({
     changeClickedState(cell);
   };
 
-  const isFinish = () => {};
+  const isFinish = (collectionBase: Array<Cell>) => {
+    const activeCells = collectionBase.find((cell) => cell.status);
+
+    if (!activeCells) {
+      alert('You finished');
+    }
+
+    console.log(activeCells);
+  };
 
   const changeClickedState = (cell: Cell) => {
     const newCollection = [...collection];
@@ -74,6 +78,8 @@ const Collection = ({
 
       setBack([a, b]);
     }
+
+    isFinish(newCollection);
 
     setCollectionMiddleware([...newCollection], setCollection);
     setClicked(null);

@@ -39,7 +39,7 @@ body {
 }
 
 .game {
-  @apply text-center flex bg-gray-500 w-[90vw] mt-[130px];
+  @apply text-center flex bg-gray-500 w-[90vw] sm:w-3/12 mt-[140px] mb-[6vh];
 }
 
 .game tbody {
@@ -69,11 +69,12 @@ body {
 }
 
 .buttons {
-  @apply flex justify-center max-w-md w-full max-sm:w-11/12 gap-4 bg-black text-black fixed pb-4 pt-4 top-14;
+  @apply flex justify-center w-full gap-4 bg-black text-black fixed p-4 top-14 z-10;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
 }
 
-.buttons button{
-  @apply p-2 border-2 w-full flex flex-col items-center text-center cursor-pointer rounded-lg bg-white hover:bg-gray-200;
+.buttons button {
+  @apply p-2 border-2 w-full sm:w-32 flex flex-col items-center text-center cursor-pointer rounded-lg bg-white hover:bg-gray-300;
 }
 
 .help {
@@ -88,8 +89,8 @@ body {
   @apply w-full left-0 text-2xl font-bold h-full absolute flex items-center justify-center;
 }
 
-.menu { 
-  @apply absolute w-screen h-screen left-[-100vw] top-0 bg-gray-100 p-8 pt-6 text-black text-center flex flex-col z-10;
+.menu {
+  @apply fixed w-screen sm:w-1/4 h-screen left-[-100vw] top-0 bg-gray-100 p-8 pt-6 text-black text-center flex flex-col z-50;
 }
 
 .active {
@@ -101,7 +102,7 @@ body {
 }
 
 .menu-button {
-  @apply flex gap-4 p-2 rounded-lg bg-white;
+  @apply flex gap-4 p-2 rounded-lg bg-white hover:bg-gray-200;
   box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.15);
 }
 
@@ -110,7 +111,7 @@ body {
 }
 
 .nav {
-  @apply flex bg-black h-14 justify-between items-center p-2 pt-1 border-b fixed w-screen;
+  @apply flex bg-black h-14 justify-between items-center p-2 pt-1 border-b fixed w-screen z-10;
 }
 
 .nav-title {
@@ -118,15 +119,19 @@ body {
 }
 
 .modeModal {
-  @apply absolute w-screen h-screen bg-black bg-opacity-25 left-0 top-0 flex flex-col justify-center
+  @apply absolute w-screen h-screen bg-black bg-opacity-50 left-0 top-0 flex flex-col justify-center;
 }
 
 .modalMain {
-  @apply p-4 bg-white m-8 flex flex-col gap-4 rounded-lg
+  @apply p-4 bg-white sm:w-3/12 m-8 sm:m-auto flex flex-col gap-4 rounded-lg;
 }
 
 .modalTitle {
-  @apply text-xl font-bold
+  @apply flex justify-between items-center;
+}
+
+.modalTitle h2 {
+  @apply text-xl font-bold;
 }
 
 .modalSelect {
@@ -139,25 +144,27 @@ body {
 }
 
 .footer {
-  @apply fixed w-screen top-[96vh] bg-white p-2 pe-4 ps-4 text-black flex flex-col justify-between cursor-pointer
+  @apply fixed w-screen bottom-[-324px] bg-white p-2 pe-4 ps-4 text-black flex flex-col justify-between cursor-pointer;
+  box-shadow: 0px -10px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.5s ease-in-out;
 }
 
 .footerActived {
-  @apply top-auto bottom-0
+  @apply bottom-0;
 }
 
 .footerTitle {
-  @apply flex justify-center gap-2 items-center
+  @apply flex justify-center gap-2 items-center;
 }
 
 .footerTitle h3 {
-  @apply  text-center text-xl font-bold
+  @apply text-center text-xl font-bold;
 }
 
 .footerList {
-  @apply flex flex-col gap-1
+  @apply flex flex-col gap-1;
 }
 
 .footerItem {
-  @apply flex justify-between
+  @apply flex justify-between;
 }

@@ -1,13 +1,14 @@
 import { EnumModes } from '@/interfaces/Modes';
 import NewGameButtonProps from '@/types/NewGameButtonProps';
 import React, { useState } from 'react';
+import { FaX } from 'react-icons/fa6';
 
 const NewGameButton = ({ middlewareInit }: NewGameButtonProps) => {
   const [modalState, setModalState] = useState<boolean>(false);
 
   let mode = 'Normal';
 
-  const hadleStart = () => {
+  const handleStart = () => {
     setModalState(false);
     middlewareInit(mode as keyof typeof EnumModes);
   };
@@ -20,7 +21,12 @@ const NewGameButton = ({ middlewareInit }: NewGameButtonProps) => {
       {modalState && (
         <div className="modeModal">
           <div className="modalMain">
-            <h2 className="modalTitle">Selecione o modo do jogo</h2>
+            <div className="modalTitle">
+              <h2>Select the game mode</h2>
+              <button onClick={() => setModalState(false)}>
+                <FaX color="red" />
+              </button>
+            </div>
             <select
               className="modalSelect"
               onChange={(e) => (mode = e.target.value)}
@@ -29,7 +35,7 @@ const NewGameButton = ({ middlewareInit }: NewGameButtonProps) => {
                 <option key={key}>{mode}</option>
               ))}
             </select>
-            <button className="modalButton" onClick={hadleStart}>
+            <button className="modalButton" onClick={handleStart}>
               Start
             </button>
           </div>

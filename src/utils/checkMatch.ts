@@ -1,7 +1,7 @@
 import Cell from '@/types/Cell';
 import checkVertical from './checkVertical';
 
-const checkMatchs = (collection: Array<Cell>, a: Cell, b: Cell): boolean => {
+const checkMatch = (collection: Array<Cell>, a: Cell, b: Cell): boolean => {
   if (b.number !== a.number && b.number + a.number !== 10) {
     return false;
   }
@@ -42,4 +42,4 @@ const checkMatchs = (collection: Array<Cell>, a: Cell, b: Cell): boolean => {
   return false;
 };
 
-export default checkMatchs;
+export default checkMatch;

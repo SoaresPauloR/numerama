@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { HelperButton } from './HelperButton';
 import setCollectionMiddleware from '@/Middleware/setCollectionMiddleware';
 import Collection from './Collection';
-import checkMatchs from '@/utils/checkMatchs';
+import checkMatch from '@/utils/checkMatch';
 import AddButton from './AddButton';
 import CleanRowsButton from './CleanRowsButton';
 import BackButton from './BackButton';
@@ -39,7 +39,7 @@ export const Game = ({ initConf }: GameProps) => {
 
   useEffect(() => {
     const newGame = () => {
-      setCollectionMiddleware(initConf.methode.collection, setCollection);
+      setCollectionMiddleware(initConf.method.collection, setCollection);
 
       setNumRows(3);
       setBack(null);
@@ -73,7 +73,7 @@ export const Game = ({ initConf }: GameProps) => {
       return;
     }
 
-    setCollection(initConf.methode.collection);
+    setCollection(initConf.method.collection);
 
     const rows = 3;
     setNumRows(rows);
@@ -83,7 +83,9 @@ export const Game = ({ initConf }: GameProps) => {
   }, [initConf]);
 
   const handleStatistic = () => {
-    const couted = {
+    if (statisticState) return setStatisticState(!statisticState);
+
+    const count = {
       number: 0,
       one: 0,
       two: 0,
@@ -100,39 +102,41 @@ export const Game = ({ initConf }: GameProps) => {
     collection.map((cell) => {
       switch (cell.number) {
         case 1:
-          couted.one++;
+          if (cell.status) count.one++;
           break;
         case 2:
-          couted.two++;
+          if (cell.status) count.two++;
           break;
         case 3:
-          couted.three++;
+          if (cell.status) count.three++;
           break;
         case 4:
-          couted.four++;
+          if (cell.status) count.four++;
           break;
         case 5:
-          couted.five++;
+          if (cell.status) count.five++;
           break;
         case 6:
-          couted.six++;
+          if (cell.status) count.six++;
           break;
         case 7:
-          couted.seven++;
+          if (cell.status) count.seven++;
           break;
         case 8:
-          couted.eight++;
+          if (cell.status) count.eight++;
           break;
         case 9:
-          couted.nine++;
+          if (cell.status) count.nine++;
           break;
       }
 
-      if (cell.status) couted.number++;
+      if (cell.status) count.number++;
     });
 
-    setStatistic(couted);
+    setStatistic(count);
     setStatisticState(!statisticState);
+
+    console.log(collection);
   };
 
   if (loading) return <div className="loading">loading...</div>;
@@ -156,7 +160,7 @@ export const Game = ({ initConf }: GameProps) => {
           collection={collection}
           clicked={clicked}
           setClicked={setClicked}
-          checkNumber={(a, b) => checkMatchs(collection, a, b)}
+          checkNumber={(a, b) => checkMatch(collection, a, b)}
           setCollectionMiddleware={(collection) =>
             setCollectionMiddleware(collection, setCollection)
           }
@@ -191,40 +195,49 @@ export const Game = ({ initConf }: GameProps) => {
         className={`footer ${statisticState ? 'footerActived' : ''}`}
       >
         <div className="footerTitle">
-          <h3>Totais</h3>
+          <h3>Statistics</h3>
           {statisticState ? <IoIosArrowDown /> : <IoIosArrowUp />}
         </div>
 
         <ul className="footerList">
           <li className="footerItem">
-            <div>Numeros</div> <div>{statistic.number}</div>
+            <div>Number</div> <div>{statistic.number}</div>
           </li>
+          <hr />
           <li className="footerItem">
-            <div>Um</div> <div>{statistic.one}</div>
+            <div>One</div> <div>{statistic.one}</div>
           </li>
+          <hr />
           <li className="footerItem">
-            <div>Dois</div> <div>{statistic.two}</div>
+            <div>Two</div> <div>{statistic.two}</div>
           </li>
+          <hr />
           <li className="footerItem">
-            <div>Três</div> <div>{statistic.three}</div>
+            <div>Three</div> <div>{statistic.three}</div>
           </li>
+          <hr />
           <li className="footerItem">
-            <div>Quatro</div> <div>{statistic.four}</div>
+            <div>Four</div> <div>{statistic.four}</div>
           </li>
+          <hr />
           <li className="footerItem">
-            <div>Cinco</div> <div>{statistic.five}</div>
+            <div>Five</div> <div>{statistic.five}</div>
           </li>
+          <hr />
           <li className="footerItem">
-            <div>Seis</div> <div>{statistic.six}</div>
+            <div>Six</div> <div>{statistic.six}</div>
           </li>
+          <hr />
           <li className="footerItem">
-            <div>Sete</div> <div>{statistic.seven}</div>
+            <div>Seven</div> <div>{statistic.seven}</div>
           </li>
+          <hr />
           <li className="footerItem">
-            <div>Oito</div> <div>{statistic.eight}</div>
+            <div>Eight</div> <div>{statistic.eight}</div>
           </li>
+          <hr />
           <li className="footerItem">
-            <div>Nove</div> <div>{statistic.nine}</div>
+            <div>Nine</div> <div>{statistic.nine}</div>
           </li>
         </ul>
       </footer>

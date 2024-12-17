@@ -94,7 +94,7 @@ export class Test implements Mode {
 
     let col = 0;
 
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 27; i++) {
       collection.push({
         index: i,
         number: 1,

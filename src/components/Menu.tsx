@@ -11,7 +11,13 @@ const Menu = ({ menuState, setMenuState, middlewareInit }: MenuProps) => {
         <div className="menu-buttons">
           <NewGameButton middlewareInit={middlewareInit} />
 
-          <button className="menu-button" onClick={() => setMenuState(false)}>
+          <button
+            className="menu-button"
+            onClick={() => {
+              setMenuState(false);
+              window.scrollTo(0, 0);
+            }}
+          >
             Continue
           </button>
           <button className="menu-button" onClick={() => alert('Instructiins')}>

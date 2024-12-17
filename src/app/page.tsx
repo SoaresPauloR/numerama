@@ -9,13 +9,13 @@ import { EnumModes } from '../interfaces/Modes';
 export default function Home() {
   const [menuState, setMenuState] = useState<boolean>(true);
   const [initConf, setInitConf] = useState<InitConfig>({
-    methode: EnumModes['Normal'],
+    method: EnumModes['Normal'],
     newGame: false,
   });
 
   const middlewareInit = (selected: keyof typeof EnumModes) => {
     const ModeClass = EnumModes[selected];
-    setInitConf({ ...initConf, methode: ModeClass, newGame: true });
+    setInitConf({ ...initConf, method: ModeClass, newGame: true });
     setMenuState(false);
   };
 
@@ -28,7 +28,7 @@ export default function Home() {
           middlewareInit={middlewareInit}
         />
       </div>
-      <div className="main">
+      <div onClick={() => setMenuState(false)} className="main">
         <Game initConf={initConf} />
       </div>
     </main>

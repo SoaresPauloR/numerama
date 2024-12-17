@@ -1,7 +1,7 @@
 import Modes from './Modes';
 
 interface InitConfig {
-  methode: unknown & Modes;
+  method: unknown & Modes;
   newGame: boolean;
 }
 
